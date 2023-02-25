@@ -12,13 +12,6 @@ from hierarchical_clustering.relaxed.utils.lca import hyp_lca
 from hierarchical_clustering.relaxed.utils.linkage import nn_merge_uf_fast_np, sl_from_embeddings
 from util.ml_and_math.poincare import project
 
-
-def index_to_one_hot(x, alphabet_size=4, device='cpu'):
-    # add one row of zeros because the -1 represents the absence of element and it is encoded with zeros
-    x = torch.cat((torch.eye(alphabet_size, device=device), torch.zeros((1, alphabet_size), device=device)), dim=0)[x]
-    return x
-
-
 class HypHCModel(nn.Module):
     """ Class interface for the other hyperbolic models for hierarchical clustering """
 

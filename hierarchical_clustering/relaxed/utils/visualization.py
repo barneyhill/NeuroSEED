@@ -91,7 +91,11 @@ def plot_tree_from_leaves(ax, tree, leaves_embeddings, labels, color_seed=1234):
     ax.add_artist(circle)
     n = leaves_embeddings.shape[0]
     embeddings = complete_tree(tree, leaves_embeddings)
-    colors = get_colors(labels, color_seed)
+    if labels != None:
+        colors = get_colors(labels, color_seed)
+    else:
+        colors = ['black'] * n
+
     ax.scatter(embeddings[:n, 0], embeddings[:n, 1], c=colors, s=50, alpha=0.6)
 
     for n1, n2 in tree.edges():
@@ -99,13 +103,14 @@ def plot_tree_from_leaves(ax, tree, leaves_embeddings, labels, color_seed=1234):
         x2 = embeddings[n2]
         plot_geodesic(x1, x2, ax)
 
-    for i, txt in enumerate(labels):
-        if embeddings[i, 0] > 0:
-            ax.annotate(txt, (embeddings[i, 0]*1.15, embeddings[i, 1]*1.15), xycoords="data",
-                va="center", ha="left", bbox=dict(boxstyle="round", fc="w"))
-        else:
-            ax.annotate(txt, (embeddings[i, 0]*1.15, embeddings[i, 1]*1.15), xycoords="data",
-                va="center", ha="right", bbox=dict(boxstyle="round", fc="w"))
+    if labels != None:
+        for i, txt in enumerate(labels):
+            if embeddings[i, 0] > 0:
+                ax.annotate(txt, (embeddings[i, 0]*1.15, embeddings[i, 1]*1.15), xycoords="data",
+                    va="center", ha="left", bbox=dict(boxstyle="round", fc="w"))
+            else:
+                ax.annotate(txt, (embeddings[i, 0]*1.15, embeddings[i, 1]*1.15), xycoords="data",
+                    va="center", ha="right", bbox=dict(boxstyle="round", fc="w"))
 
     ax.set_xlim(-1.05, 1.05)
     ax.set_ylim(-1.05, 1.05)

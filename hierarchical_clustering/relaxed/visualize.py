@@ -19,14 +19,14 @@ from util.ml_and_math.poincare import project
 from hierarchical_clustering.relaxed.utils.visualization import plot_tree_from_leaves
 
 
-def decode_tree_and_sequences(args, model, seq_loader, device):
+def decode_tree_and_sequences(fast_decoding, model, seq_loader, device):
     embedded_sequences = []
     for ids, seqs in seq_loader:
         e = model.encode(ids.to(device), seqs.to(device))
         embedded_sequences.append(e)
 
     embedded_sequences = torch.cat(embedded_sequences, dim=0)
-    return model.decode_tree(embedded_sequences=embedded_sequences, fast_decoding=args.fast_decoding), embedded_sequences
+    return model.decode_tree(embedded_sequences=embedded_sequences, fast_decoding=fast_decoding), embedded_sequences
 
 
 if __name__ == "__main__":
